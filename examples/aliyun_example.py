@@ -2,17 +2,17 @@
 
 import os
 from memoripy import MemoryManager, JSONStorage
-from memoripy.implemented_models import OpenRouterChatModel, OllamaEmbeddingModel
+from memoripy.implemented_models import AliyunChatModel, AliyunEmbeddingModel
 
 def main():
     # Replace 'your-api-key' with your actual API key for the chat completions service you use
-    api_key = os.environ.get("OPENROUTER_API_KEY")
+    api_key = os.environ.get("DASHSCOPE_API_KEY")
     if not api_key or api_key == "your-api-key":
         raise ValueError("Please set your API key.")
 
     # Define chat and embedding models
-    chat_model_name = "nousresearch/hermes-3-llama-3.1-405b:free" # Specific chat model name
-    embedding_model_name = "mxbai-embed-large"  # Specific embedding model name
+    chat_model_name = "qwen-plus" # Specific chat model name
+    embedding_model_name = "text-embedding-v4"  # Specific embedding model name
 
     # Choose your storage option
     storage_option = JSONStorage("interaction_history.json")
@@ -21,10 +21,10 @@ def main():
     # storage_option = InMemoryStorage()
 
     # Initialize the MemoryManager with the selected models and storage
-    memory_manager = MemoryManager(OpenRouterChatModel(api_key, chat_model_name), OllamaEmbeddingModel(embedding_model_name), storage=storage_option)
+    memory_manager = MemoryManager(AliyunChatModel(api_key, chat_model_name), AliyunEmbeddingModel(api_key, embedding_model_name), storage=storage_option)
 
     # New user prompt
-    new_prompt = "My name is Khazar"
+    new_prompt = "We are building a new AI agent"
 
     # Load the last 5 interactions from history (for context)
     short_term, _ = memory_manager.load_history()
